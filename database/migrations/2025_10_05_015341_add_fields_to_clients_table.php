@@ -8,20 +8,19 @@ return new class extends Migration {
     public function up(): void
     {
         Schema::table('clients', function (Blueprint $table) {
-            // Si la tabla ya tenía datos y falla por NOT NULL,
-            // cambia temporalmente a ->nullable() y luego ajustamos.
+            // Si la tabla tiene filas y te da error por NOT NULL,
+            // cambia temporalmente a ->nullable() y luego ajustas.
             $table->string('name', 120)->after('id');
             $table->string('email', 150)->unique()->after('name');
             $table->string('phone', 30)->nullable()->after('email');
             $table->string('address', 255)->nullable()->after('phone');
-            $table->softDeletes()->after('updated_at'); // borrado lógico
+            $table->softDeletes()->after('updated_at');
         });
     }
 
     public function down(): void
     {
         Schema::table('clients', function (Blueprint $table) {
-            // Al eliminar la columna email, el índice único asociado también cae.
             $table->dropColumn(['name', 'email', 'phone', 'address', 'deleted_at']);
         });
     }
