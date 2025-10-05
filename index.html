@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>CRUD Clientes - Laravel API</title>
+  <style>
+    body { font-family: Arial; background: #f7f7f7; padding: 40px; }
+    input, button { padding: 6px; margin: 5px; }
+    button { cursor: pointer; }
+    pre { background: #222; color: #0f0; padding: 10px; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <h1>Cliente CRUD Test</h1>
+
+  <div>
+    <input type="text" id="name" placeholder="Nombre">
+    <input type="email" id="email" placeholder="Email">
+    <input type="text" id="phone" placeholder="Teléfono">
+    <button onclick="createClient()">Crear</button>
+  </div>
+
+  <button onclick="getClients()">Listar Clientes</button>
+  <pre id="output"></pre>
+
+  <script>
+    const API = "http://127.0.0.1:8000/api/clients";
+
+    async function getClients() {
+      const res = await fetch(API);
+      const data = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    }
+
+    async function createClient() {
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      const res = await fetch(API, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, phone })
+      });
+
+      const data = await res.json();
+      document.getElementById('output').textContent = JSON.stringify(data, null, 2);
+    }
+  </script>
+</body>
+</html>

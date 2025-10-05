@@ -2,9 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ClientController;
-
-
-Route::get('/ping', fn () => response()->json(['ok' => true]));
-
+use App\Http\Controllers\ProductController;
 
 Route::apiResource('clients', ClientController::class);
+Route::apiResource('products', ProductController::class);
